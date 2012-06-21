@@ -11,10 +11,13 @@
         nt, // Nucleotide at middle
         index_hit; // index in array of hits
 
-    for(i=0; (r_length-i)>=p_length; i++) {
+    for(i=0; (r_length-i)>=p_length; i++) { // slide a window of size p_length across the read
+
+      // Capture the middle nucleotide and change it for an 'N'
       sub_read = read.substring(i, i+p_length);
       nt       = sub_read[middle];
       sub_read = sub_read.substr(0, middle) + 'N' + sub_read.substr(middle+1, p_length);
+
       if (probes[sub_read]) { // hit
         ref  = probes[sub_read].ref;
         _var = probes[sub_read]["var"];

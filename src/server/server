@@ -13,6 +13,7 @@ function screen_reads(reads_file, probes) {
       eg_screening.process_read(line, probes);
     }
   }).then(function() {
+    console.log(eg_probes.probes);
     console.log(">> Done");
   });
 }

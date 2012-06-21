@@ -6,7 +6,7 @@ var vows      = require('vows'),
 
 // Screening suite
 vows.describe('The logic for screening reads against probes').addBatch({
-  'A hit in the middle of a read is found (both strands)...': {
+  'A hit is found (both strands)...': {
     topic: function() {
       var line   = "1\t100006955\trs4908018\tTTTGTCTAAAACAAC\tCTTTCACTAGGCTCA\tC\tA",
           probes = eg.hash_probe(line),
@@ -28,29 +28,49 @@ vows.describe('The logic for screening reads against probes').addBatch({
 
         read_with_rc_hit_ref     : "CCCCCC" + rc.replace(/N/, ref)  + "CCCCC",
         read_with_rc_hit_var     : "CCCCCC" + rc.replace(/N/, _var)  + "CCCCC",
-        read_with_rc_hit_others  : "CCCCCC" + rc.replace(/N/, 'T')  + "CCCCC"
+        read_with_rc_hit_others  : "CCCCCC" + rc.replace(/N/, 'T')  + "CCCCC",
+
+        read_with_hit_beg_ref    : seq.replace(/N/, ref)  + "ACCTTACACTTACTAT",
+        read_with_rc_hit_beg_ref : rc.replace(/N/, ref)  + "ACCTTACACTTACTAT",
+
+        read_with_hit_end_var    : "AAAAAAAAAAA" + seq.replace(/N/, _var),
+        read_with_rc_hit_end_var : "CCCCCCCCCCC" + rc.replace(/N/, _var)
       };
     },
 
-    'ref hit': function(o) {
+    'hit ref': function(o) {
       screening.process_read(o.read_with_hit_ref, o.probes);
       assert.strictEqual(eg.probes[o.seq].hits.ref, 1);
       screening.process_read(o.read_with_rc_hit_ref, o.probes);
       assert.strictEqual(eg.probes[o.rc].hits.ref, 1);
     },
 
-    'in the normal version of the probe, hit var': function(o) {
+    'hit var': function(o) {
       screening.process_read(o.read_with_hit_var, o.probes);
       assert.strictEqual(eg.probes[o.seq].hits["var"], 1);
       screening.process_read(o.read_with_rc_hit_var, o.probes);
       assert.strictEqual(eg.probes[o.rc].hits["var"], 1);
     },
 
-    'in the normal version of the probe, hit others': function(o) {
+    'hit others': function(o) {
       screening.process_read(o.read_with_hit_others, o.probes);
       assert.strictEqual(eg.probes[o.seq].hits.others, 1);
       screening.process_read(o.read_with_rc_hit_others, o.probes);
       assert.strictEqual(eg.probes[o.rc].hits.others, 1);
+    },
+
+   'hit at the beginning ref': function(o) {
+     screening.process_read(o.read_with_hit_beg_ref, o.probes);
+     assert.strictEqual(eg.probes[o.seq].hits.ref, 2);
+     screening.process_read(o.read_with_rc_hit_beg_ref, o.probes);
+     assert.strictEqual(eg.probes[o.rc].hits.ref, 2);
+    },
+
+   'hit at the end var': function(o) {
+     screening.process_read(o.read_with_hit_end_var, o.probes);
+     assert.strictEqual(eg.probes[o.seq].hits["var"], 2);
+     screening.process_read(o.read_with_rc_hit_end_var, o.probes);
+     assert.strictEqual(eg.probes[o.rc].hits["var"], 2);
     }
   }
 
