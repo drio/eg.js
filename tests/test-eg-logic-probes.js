@@ -18,9 +18,9 @@ vows.describe('We properly deal with probes').addBatch({
       var line   = "1\t100006955\trs4908018\tTTTGTCTAAAACAAC\tCTTTCACTAGGCTCA\tC\tA",
           probes = eg.hash_probe(line);
       return {
-        seq: "TGAGCCTAGTGAAAGNGTTGTTTTAGACAAA",
-        rc : "TGAGCCTAGTGAAAGNGTTGTTTTAGACAAA",
-        id : "rs4908018"
+        seq    : "TGAGCCTAGTGAAAGNGTTGTTTTAGACAAA",
+        rc     : "TTTGTCTAAAACAACNCTTTCACTAGGCTCA",
+        id     : "rs4908018"
       };
     },
 
@@ -38,4 +38,4 @@ vows.describe('We properly deal with probes').addBatch({
       assert.strictEqual(eg.probes[o.rc].id, o.id);
     }
   }
-}).run(); // Run it
+}).export(module);

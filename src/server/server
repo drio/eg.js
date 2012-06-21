@@ -1,19 +1,16 @@
 #!/usr/bin/env node
 
-var eg_probes = require('./eg-probes'),
-    _         = require('underscore'),
-    lr        = require('./line-reader'),
+var eg_probes    = require('./eg-probes'),
+    _            = require('underscore'),
+    lr           = require('./line-reader'),
+    eg_screening = require('./eg-screening'),
     probes;
 
-function process_read(read) {
-  console.log(read);
-}
-
-function screen_reads(reads_file) {
+function screen_reads(reads_file, probes) {
   console.log(">> Screaning reads ...");
   lr.eachLine(reads_file, function(line, last) {
     if (line[0] !== '>') {
-      process_read(line);
+      eg_screening.process_read(line, probes);
     }
   }).then(function() {
     console.log(">> Done");
@@ -28,7 +25,7 @@ function hash_probes(probe_file, reads_file) {
   }).then(function() {
     var n_probes = _.keys(eg_probes.probes).length;
     console.log(">> # of probes: " + n_probes);
-    screen_reads(reads_file);
+    screen_reads(reads_file, eg_probes.probes);
   });
 }
 

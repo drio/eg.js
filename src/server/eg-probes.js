@@ -1,5 +1,6 @@
 (function () {
   var lr     = require('./line-reader'),
+      _      = require('underscore'),
       probes = {};
 
   /* Reverse complement a chunck of DNA */
@@ -28,7 +29,6 @@
                        "hits" : { "ref" : 0, "var" : 0, "others" : 0 }
                      };
   }
-
 
   exports.hash_probe   = hash_probe;
   exports.probes       = probes;
