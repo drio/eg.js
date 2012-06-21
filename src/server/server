@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+
+var eg_probes = require('./eg-probes'),
+    _         = require('underscore'),
+    lr        = require('./line-reader'),
+    probes;
+
+function process_read(read) {
+  console.log(read);
+}
+
+function screen_reads(reads_file) {
+  console.log(">> Screaning reads ...");
+  lr.eachLine(reads_file, function(line, last) {
+    if (line[0] !== '>') {
+      process_read(line);
+    }
+  }).then(function() {
+    console.log(">> Done");
+  });
+}
+
+//1       100006955       rs4908018       TTTGTCTAAAACAAC CTTTCACTAGGCTCA C       A
+function hash_probes(probe_file, reads_file) {
+  console.log(">> Hashing ...");
+  lr.eachLine(probe_file, function(line, last) {
+    eg_probes.hash_probe(line);
+  }).then(function() {
+    var n_probes = _.keys(eg_probes.probes).length;
+    console.log(">> # of probes: " + n_probes);
+    screen_reads(reads_file);
+  });
+}
+
+// Main
+hash_probes("./tests/seq_space_probes.txt",
+            "./tests/small_reads.fasta");
+
