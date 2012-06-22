@@ -28,12 +28,6 @@ vows.describe('We properly deal with probes').addBatch({
       assert.strictEqual(eg.probes[o.seq].id, o.id);
     },
 
-    'The hit counts are properly set to 0': function(o) {
-      assert.strictEqual(eg.probes[o.seq].hits["var"], 0);
-      assert.strictEqual(eg.probes[o.seq].hits.ref, 0);
-      assert.strictEqual(eg.probes[o.seq].hits.others, 0);
-    },
-
     'And I the RC version of the hashed probe is there': function(o) {
       assert.strictEqual(eg.probes[o.rc].id, o.id);
     }

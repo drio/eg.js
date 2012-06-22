@@ -20,14 +20,8 @@
         seq    = al[3] + 'N' + al[4],
         rc_seq = reverse_comp(seq);
 
-    probes[seq]    = {
-                       "id" : al[2], "ref" : al[5], "var" : al[6],
-                       "hits" : { "ref" : 0, "var" : 0, "others" : 0 }
-                     };
-    probes[rc_seq] = {
-                       "id" : al[2], "ref" : al[5], "var" : al[6],
-                       "hits" : { "ref" : 0, "var" : 0, "others" : 0 }
-                     };
+    probes[seq]    = { "id" : al[2], "ref" : al[5], "var" : al[6] };
+    probes[rc_seq] = { "id" : al[2], "ref" : al[5], "var" : al[6] };
   }
 
   exports.hash_probe   = hash_probe;

@@ -7,13 +7,19 @@ var eg_probes    = require('./eg-probes'),
     probes;
 
 function screen_reads(reads_file, probes) {
+  var i = 0;
   console.log(">> Screaning reads ...");
   lr.eachLine(reads_file, function(line, last) {
+    i++;
+    if (i % 10 === 0) console.log(">> # of reads processed: " + i);
     if (line[0] !== '>') {
-      eg_screening.process_read(line, probes);
+      eg_screening.process_read(line, probes, function(probe_id, ref_or_var) {
+        console.log("HIT: " + probe_id + " | " + ref_or_var);
+      });
     }
   }).then(function() {
-    console.log(eg_probes.probes);
+    //console.log(eg_probes.probes);
+    console.log(">> # of reads processed: " + i);
     console.log(">> Done");
   });
 }
@@ -31,6 +37,6 @@ function hash_probes(probe_file, reads_file) {
 }
 
 // Main
-hash_probes("./tests/seq_space_probes.txt",
-            "./tests/small_reads.fasta");
+//hash_probes("./tests/seq_space_probes.txt", "./tests/small_reads.fasta");
+hash_probes("./data/affy_human.txt", "./data/illumina.fasta");
 

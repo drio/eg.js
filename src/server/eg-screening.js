@@ -1,7 +1,7 @@
 (function() {
   _         = require('underscore');
 
-  function process_read(read, probes) {
+  function process_read(read, probes, callback) {
     var i,
         r_length = read.length,
         p_length = _.keys(probes)[0].length,
@@ -19,12 +19,13 @@
       sub_read = sub_read.substr(0, middle) + 'N' + sub_read.substr(middle+1, p_length);
 
       if (probes[sub_read]) { // hit
+        pid  = probes[sub_read].id; // probe id
         ref  = probes[sub_read].ref;
         _var = probes[sub_read]["var"];
-        if      (nt === ref)  index_hit = "ref";
-        else if (nt === _var) index_hit = "var";
-        else                  index_hit = "others";
-        probes[sub_read].hits[index_hit]++;
+        // Only callback if the allele seen matches the ref or var for the probe
+        if (nt === ref)  callback(pid, "R");
+        else if (nt === _var) callback(pid, "V");
+        else callback(0, '');
       }
     }
   }
