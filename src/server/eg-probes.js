@@ -24,7 +24,23 @@
     probes[rc_seq] = { "id" : al[2], "ref" : al[5], "var" : al[6] };
   }
 
+  function probe_size() {
+    var p_keys = _.keys(probes);
+    if (p_keys.length > 0) {
+      return p_keys[0].length;
+    }
+    else {
+      return 0;
+    }
+  }
+
+  function probe_middle() {
+    return parseInt(probe_size()/2, 10);
+  }
+
   exports.hash_probe   = hash_probe;
   exports.probes       = probes;
   exports.reverse_comp = reverse_comp;
+  exports.probe_size   = probe_size;
+  exports.probe_middle = probe_middle;
 }());

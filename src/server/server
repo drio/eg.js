@@ -4,34 +4,37 @@ var eg_probes    = require('./eg-probes'),
     _            = require('underscore'),
     lr           = require('./line-reader'),
     eg_screening = require('./eg-screening'),
-    probes;
+    probes,
+    log          = console.log;
 
 function screen_reads(reads_file, probes) {
-  var i = 0;
-  console.log(">> Screaning reads ...");
+  var i        = 0,
+      p_length = eg_probes.probe_size();
+      middle   = parseInt(p_length/2, 10);
+
+  log(">> Probes are " + p_length + " long. Middle is: " + middle);
+  log(">> Screaning reads ...");
   lr.eachLine(reads_file, function(line, last) {
-    i++;
-    if (i % 10 === 0) console.log(">> # of reads processed: " + i);
     if (line[0] !== '>') {
-      eg_screening.process_read(line, probes, function(probe_id, ref_or_var) {
-        console.log("HIT: " + probe_id + " | " + ref_or_var);
+      if (++i % 100000 === 0) log(">> # of reads processed: " + i);
+      eg_screening.process_read(line, probes, p_length, middle, function(probe_id, ref_or_var) {
+        log("HIT: " + probe_id + " | " + ref_or_var);
       });
     }
   }).then(function() {
-    //console.log(eg_probes.probes);
-    console.log(">> # of reads processed: " + i);
-    console.log(">> Done");
+    log(">> # of reads processed: " + i);
+    log(">> Done");
   });
 }
 
 //1       100006955       rs4908018       TTTGTCTAAAACAAC CTTTCACTAGGCTCA C       A
 function hash_probes(probe_file, reads_file) {
-  console.log(">> Hashing ...");
+  log(">> Hashing ...");
   lr.eachLine(probe_file, function(line, last) {
     eg_probes.hash_probe(line);
   }).then(function() {
     var n_probes = _.keys(eg_probes.probes).length;
-    console.log(">> # of probes: " + n_probes);
+    log(">> # of probes: " + n_probes);
     screen_reads(reads_file, eg_probes.probes);
   });
 }

@@ -1,18 +1,15 @@
 (function() {
   _         = require('underscore');
 
-  function process_read(read, probes, callback) {
+  function process_read(read, probes, p_length, middle, callback) {
     var i,
         r_length = read.length,
-        p_length = _.keys(probes)[0].length,
         sub_read,
-        middle = parseInt(p_length/2, 10),
         ref, _var,
         nt, // Nucleotide at middle
         index_hit; // index in array of hits
 
     for(i=0; (r_length-i)>=p_length; i++) { // slide a window of size p_length across the read
-
       // Capture the middle nucleotide and change it for an 'N'
       sub_read = read.substring(i, i+p_length);
       nt       = sub_read[middle];
@@ -25,7 +22,6 @@
         // Only callback if the allele seen matches the ref or var for the probe
         if (nt === ref)  callback(pid, "R");
         else if (nt === _var) callback(pid, "V");
-        else callback(0, '');
       }
     }
   }

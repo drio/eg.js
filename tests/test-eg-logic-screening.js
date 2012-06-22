@@ -17,7 +17,7 @@ vows.describe('test-eg-logic-screening').addBatch({
     topic: function() {
       eg.hash_probe(line);
       var read = "ACCGGT" + seq.replace(/N/, ref)  + "ACCTT";
-      screening.process_read(read, eg.probes, this.callback);
+      screening.process_read(read, eg.probes, eg.probe_size(), eg.probe_middle(), this.callback);
     },
     'the callback correctly retuns the id of the probe and tells me is a ref hit': function(pid, ref_or_var) {
       assert.equal(pid, id);
@@ -29,7 +29,7 @@ vows.describe('test-eg-logic-screening').addBatch({
     topic: function() {
       eg.hash_probe(line);
       var read = "ACCGGT" + seq.replace(/N/, _var)  + "ACCTT";
-      screening.process_read(read, eg.probes, this.callback);
+      screening.process_read(read, eg.probes, eg.probe_size(), eg.probe_middle(), this.callback);
     },
     'the callback correctly retuns the id of the probe and tells me is a var hit': function(pid, ref_or_var) {
       assert.equal(pid, id);
@@ -41,7 +41,7 @@ vows.describe('test-eg-logic-screening').addBatch({
     topic: function() {
       eg.hash_probe(line);
       var read =  "CCCCCC" + rc.replace(/N/, ref)  + "CCCCC";
-      screening.process_read(read, eg.probes, this.callback);
+      screening.process_read(read, eg.probes, eg.probe_size(), eg.probe_middle(), this.callback);
     },
     'the callback correctly retuns the id of the probe and tells me is a ref hit': function(pid, ref_or_var) {
       assert.equal(pid, id);
@@ -53,7 +53,7 @@ vows.describe('test-eg-logic-screening').addBatch({
     topic: function() {
       eg.hash_probe(line);
       var read = seq.replace(/N/, ref)  + "ACCTTACACTTACTAT";
-      screening.process_read(read, eg.probes, this.callback);
+      screening.process_read(read, eg.probes, eg.probe_size(), eg.probe_middle(), this.callback);
     },
     'the callback correctly retuns the id of the probe and tells me is a ref hit': function(pid, ref_or_var) {
       assert.equal(pid, id);
@@ -65,7 +65,7 @@ vows.describe('test-eg-logic-screening').addBatch({
     topic: function() {
       eg.hash_probe(line);
       var read = rc.replace(/N/, ref)  + "ACCTTACACTTACTAT";
-      screening.process_read(read, eg.probes, this.callback);
+      screening.process_read(read, eg.probes, eg.probe_size(), eg.probe_middle(), this.callback);
     },
     'the callback correctly retuns the id of the probe and tells me is a ref hit': function(pid, ref_or_var) {
       assert.equal(pid, id);
@@ -77,7 +77,7 @@ vows.describe('test-eg-logic-screening').addBatch({
     topic: function() {
       eg.hash_probe(line);
       var read = "AAAAAAAAAAA" + seq.replace(/N/, _var);
-      screening.process_read(read, eg.probes, this.callback);
+      screening.process_read(read, eg.probes, eg.probe_size(), eg.probe_middle(), this.callback);
     },
     'the callback correctly retuns the id of the probe and tells me is a var hit': function(pid, ref_or_var) {
       assert.equal(pid, id);
@@ -89,7 +89,7 @@ vows.describe('test-eg-logic-screening').addBatch({
     topic: function() {
       eg.hash_probe(line);
       var read = rc.replace(/N/, _var)  + "ACCTTACACTTACTAT";
-      screening.process_read(read, eg.probes, this.callback);
+      screening.process_read(read, eg.probes, eg.probe_size(), eg.probe_middle(), this.callback);
     },
     'the callback correctly retuns the id of the probe and tells me is a ref hit': function(pid, ref_or_var) {
       assert.equal(pid, id);
