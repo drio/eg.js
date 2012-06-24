@@ -5,41 +5,70 @@ var eg_probes    = require('./eg-probes'),
     lr           = require('./line-reader'),
     eg_screening = require('./eg-screening'),
     probes,
-    log          = console.log;
+    http = require('http'),
+    io   = require('socket.io'),
+    fs   = require('fs');
+
+var log = {
+  dump: function(msg) {
+    this.client.send(msg);
+  }
+}
 
 function screen_reads(reads_file, probes) {
   var i        = 0,
       p_length = eg_probes.probe_size();
       middle   = parseInt(p_length/2, 10);
 
-  log(">> Probes are " + p_length + " long. Middle is: " + middle);
-  log(">> Screaning reads ...");
+  log.dump(">> Probes are " + p_length + " long. Middle is: " + middle);
+  log.dump(">> Screaning reads ...");
   lr.eachLine(reads_file, function(line, last) {
     if (line[0] !== '>') {
-      if (++i % 100000 === 0) log(">> # of reads processed: " + i);
+      if (++i % 100000 === 0) log.dump(">> # of reads processed: " + i);
       eg_screening.process_read(line, probes, p_length, middle, function(probe_id, ref_or_var) {
-        log("HIT: " + probe_id + " | " + ref_or_var);
+        log.dump("HIT: " + probe_id + " | " + ref_or_var);
       });
     }
   }).then(function() {
-    log(">> # of reads processed: " + i);
-    log(">> Done");
+    log.dump(">> # of reads processed: " + i);
+    log.dump(">> Done");
   });
 }
 
 //1       100006955       rs4908018       TTTGTCTAAAACAAC CTTTCACTAGGCTCA C       A
 function hash_probes(probe_file, reads_file) {
-  log(">> Hashing ...");
+  log.dump(">> Hashing ...");
   lr.eachLine(probe_file, function(line, last) {
     eg_probes.hash_probe(line);
   }).then(function() {
     var n_probes = _.keys(eg_probes.probes).length;
-    log(">> # of probes: " + n_probes);
+    log.dump(">> # of probes: " + n_probes);
     screen_reads(reads_file, eg_probes.probes);
   });
 }
 
-// Main
+/*******************
+ * Main
+ ******************/
 //hash_probes("./tests/seq_space_probes.txt", "./tests/small_reads.fasta");
-hash_probes("./data/affy_human.txt", "./data/illumina.fasta");
+var sockFile = fs.readFileSync('src/client/index.html');
 
+// Create HTTP server
+server = http.createServer();
+server.on('request', function(req, res){
+  res.writeHead(200, {'content-type': 'text/html'});
+  res.end(sockFile);
+});
+server.listen(8080);
+
+// Use the server to create a dedicated socket with clients
+var socket = io.listen(server);
+
+// Wait for at least one client to connect to the socket
+// When so, start e-genotype
+socket.on('connection', function(client){
+  log.client = client;
+  hash_probes("./data/affy_human.txt", "./data/illumina.fasta");
+});
+
+console.log(">> Waiting for client ...");
