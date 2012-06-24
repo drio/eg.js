@@ -17,20 +17,24 @@ var log = {
 
 function screen_reads(reads_file, probes) {
   var i        = 0,
-      p_length = eg_probes.probe_size();
-      middle   = parseInt(p_length/2, 10);
+      p_length = eg_probes.probe_size()fj
+      middle   = parseInt(p_length/2, 10),
+      n_hits   = 0;
 
   log.dump(">> Probes are " + p_length + " long. Middle is: " + middle);
   log.dump(">> Screaning reads ...");
   lr.eachLine(reads_file, function(line, last) {
     if (line[0] !== '>') {
-      if (++i % 100000 === 0) log.dump(">> # of reads processed: " + i);
-      eg_screening.process_read(line, probes, p_length, middle, function(probe_id, ref_or_var) {
-        log.dump("HIT: " + probe_id + " | " + ref_or_var);
+      if (++i % 100000 === 0)
+        log.dump(">> # of reads processed: " + i + " h: " + n_hits);
+      eg_screening.process_read(line, probes, p_length, middle,
+                                function(probe_id, ref_or_var) {
+        //log.dump("HIT: " + probe_id + " | " + ref_or_var);
+        n_hits++;
       });
     }
   }).then(function() {
-    log.dump(">> # of reads processed: " + i);
+    log.dump(">> # of reads processed: " + i + " h: " + n_hits);
     log.dump(">> Done");
   });
 }
