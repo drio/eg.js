@@ -10,8 +10,11 @@ var eg_probes    = require('./eg-probes'),
     fs   = require('fs');
 
 var log = {
+  clients: [],
   dump: function(msg) {
-    this.client.send(msg);
+    _.each(this.clients, function(c) {
+      c.send(msg);
+    });
   }
 }
 
@@ -71,8 +74,9 @@ var socket = io.listen(server);
 // Wait for at least one client to connect to the socket
 // When so, start e-genotype
 socket.on('connection', function(client){
-  log.client = client;
-  hash_probes("./data/affy_human.txt", "./data/illumina.fasta");
+  log.clients.push(client);
+  if (log.clients.length === 1)
+    hash_probes("./data/affy_human.txt", "./data/illumina.fasta");
 });
 
 console.log(">> Waiting for client ...");
