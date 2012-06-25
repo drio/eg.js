@@ -17,7 +17,7 @@ var log = {
 
 function screen_reads(reads_file, probes) {
   var i        = 0,
-      p_length = eg_probes.probe_size()fj
+      p_length = eg_probes.probe_size(),
       middle   = parseInt(p_length/2, 10),
       n_hits   = 0;
 

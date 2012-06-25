@@ -1,5 +1,6 @@
-JS_FILES=src/server/eg-probes.js src/server/eg-screening.js
-TEST_FILES=tests/test-eg-logic-probes.js tests/test-eg-logic-screening.js
+JS_FILES=src/server/eg-probes.js src/server/eg-screening.js src/server/eg-hits.js
+TEST_FILES=tests/test-eg-logic-probes.js tests/test-eg-logic-screening.js \
+           tests/test-eg-hits.js
 RUN_TESTS=vows tests/*.js
 
 watch:
