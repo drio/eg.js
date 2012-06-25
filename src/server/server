@@ -4,6 +4,7 @@ var eg_probes    = require('./eg-probes'),
     _            = require('underscore'),
     lr           = require('./line-reader'),
     eg_screening = require('./eg-screening'),
+    eg_hits      = require('./eg-hits'),
     probes,
     http = require('http'),
     io   = require('socket.io'),
@@ -30,9 +31,9 @@ function screen_reads(reads_file, probes) {
     if (line[0] !== '>') {
       if (++i % 100000 === 0)
         log.dump(">> # of reads processed: " + i + " h: " + n_hits);
-      eg_screening.process_read(line, probes, p_length, middle,
-                                function(probe_id, ref_or_var) {
-        //log.dump("HIT: " + probe_id + " | " + ref_or_var);
+        eg_screening.process_read(line, probes, p_length, middle,
+                                  function(probe_id, ref_or_var) {
+        eg_hits.add(probe_id, ref_or_var);
         n_hits++;
       });
     }

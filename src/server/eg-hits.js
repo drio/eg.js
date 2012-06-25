@@ -29,13 +29,8 @@ function create_square_matrix(size) {
 }
 
 function add(id, ref_or_var) {
-  var cc_ref, cc_var; // current ref/var counts
-
-  if (counts.hasOwnProperty(id)) {
-    cc_ref = counts[id].r;
-    cc_var = counts[id].v;
-    matrix[cc_ref][cc_var]--;
-  }
+  if (counts.hasOwnProperty(id))
+    matrix[counts[id].r][counts[id].v]--;
   else
     counts[id] = {r:0, v:0};
 
