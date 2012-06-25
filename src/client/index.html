@@ -1,17 +1,22 @@
-<!DOCTYPE html> <html>
-<body>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="http://d3js.org/d3.v2.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <title>eg.js</title>
+    <script type="text/javascript" src="libs/underscore-min.js"></script>
+    <script type="text/javascript" src="libs/d3.v2.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <style type="text/css"> @import url(css/style.css); </style>
+  </head>
 
-  <script>
-    var socket = io.connect('http://localhost:8080');
-    socket.on('message', function(data){
-      //d3.select("#log").text(data);
-      $("pre").append(data + "\n");
-    })
-  </script>
+  <body>
+    <!-- <p> <a onclick="chart = Plots.update(chart, Plots.dotplot)" href="#">update</a> </p> -->
+    <h3> eg.js </h3>
+    <div id="heatmap"></div>
+    <script type="text/javascript">
+      console.log("Starting js...");
+      heatmap.empty(heatmap.random_data(), {}, "#heatmap");
+    </script>
+  </body>
 
-  <pre></pre>
-</body>
 </html>
