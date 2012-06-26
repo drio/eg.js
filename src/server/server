@@ -26,32 +26,28 @@ function screen_reads(reads_file, probes) {
       middle   = parseInt(p_length/2, 10),
       n_hits   = 0;
 
-  log.dump(">> Probes are " + p_length + " long. Middle is: " + middle);
-  log.dump(">> Screaning reads ...");
   lr.eachLine(reads_file, function(line, last) {
     if (line[0] !== '>') {
       if (++i % 100000 === 0)
-        log.dump(">> # of reads processed: " + i + " h: " + n_hits);
         eg_screening.process_read(line, probes, p_length, middle,
                                   function(probe_id, ref_or_var) {
-        eg_hits.add(probe_id, ref_or_var);
-        n_hits++;
+          eg_hits.add(probe_id, ref_or_var);
+          n_hits++;
       });
     }
   }).then(function() {
-    log.dump(">> # of reads processed: " + i + " h: " + n_hits);
-    log.dump(">> Done");
+    console.log(">> Done. # of reads processed: " + i + " h: " + n_hits);
   });
 }
 
 //1       100006955       rs4908018       TTTGTCTAAAACAAC CTTTCACTAGGCTCA C       A
 function hash_probes(probe_file, reads_file) {
-  log.dump(">> Hashing ...");
+  console.log(">> Hashing ...");
   lr.eachLine(probe_file, function(line, last) {
     eg_probes.hash_probe(line);
   }).then(function() {
     var n_probes = _.keys(eg_probes.probes).length;
-    log.dump(">> # of probes: " + n_probes);
+    console.log(">> # of probes: " + n_probes);
     screen_reads(reads_file, eg_probes.probes);
   });
 }
