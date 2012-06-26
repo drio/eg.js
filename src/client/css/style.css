@@ -11,6 +11,47 @@ body {
   margin: auto;
 }
 
+#pmin {
+  border: 0px solid;
+  border-color:black;
+  width: 14px;
+  height: 14px;
+  float: left;
+  padding-right: 2px;
+}
+
+#pmax {
+  float: left;
+  border: 0px solid;
+  border-color:black;
+  width: 24px;
+  height: 14px;
+  padding-left: 2px;
+}
+
+#color-chart {
+  float: left;
+  border: 0px solid;
+  border-color:black;
+}
+
+.color.palette {
+  position: relative;
+}
+
+.color.palette .label {
+  position: absolute;
+  line-height: 54px;
+  left: .4em;
+  color: #000;
+}
+
+.color.palette .swatch {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+}
+
 .circle {
   /*stroke:black;*/
   /*stroke-width:2;*/

@@ -12,11 +12,19 @@
   <body>
     <!-- <p> <a onclick="chart = Plots.update(chart, Plots.dotplot)" href="#">update</a> </p> -->
     <h3> eg.js </h3>
-    <div id="heatmap"></div>
+    <section id="min-max-color">
+      <div id="pmin"></div>
+      <div id="color-chart"></div>
+      <div id="pmax"></div>
+    </section>
+    <section id="heatmap"></section>
+
     <script type="text/javascript">
       console.log("Starting js...");
       heatmap.empty(heatmap.random_data(), {}, "#heatmap");
+      heatmap.display_palette();
     </script>
+
   </body>
 
 </html>
