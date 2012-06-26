@@ -11,6 +11,10 @@ body {
   margin: auto;
 }
 
+#info {
+  padding-bottom: 10px;
+}
+
 #pmin {
   border: 0px solid;
   border-color:black;

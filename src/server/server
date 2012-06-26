@@ -20,6 +20,17 @@ var pipe = {
   }
 }
 
+// type    : type of answer
+// payload : array of key/value pairs of the payload
+function send_data(type, payload) {
+  var jo = {}; // json object
+
+  jo.type = type;
+  _.each(payload, function(e) { jo[e[0]] = e[1]; });
+
+  pipe.dump(JSON.stringify(jo));
+}
+
 function screen_reads(reads_file, probes) {
   var i        = 0,
       p_length = eg_probes.probe_size(),
@@ -30,7 +41,7 @@ function screen_reads(reads_file, probes) {
     if (line[0] !== '>') {
       if (++i % 100000 === 0) {
         console.log(">> # of reads processed: " + i + " h: " + n_hits);
-        pipe.dump(">> #r: " + i + " #h: " + n_hits);
+        send_data('info', [ ["n_reads", i] , ["n_hits", n_hits]]);
       }
       eg_screening.process_read(line, probes, p_length, middle,
                                 function(probe_id, ref_or_var) {
@@ -40,6 +51,7 @@ function screen_reads(reads_file, probes) {
     }
   }).then(function() {
     console.log(">> Done. # of reads processed: " + i + " h: " + n_hits);
+    send_data('info', [ ["n_reads", i] , ["n_hits", n_hits]]);
   });
 }
 
