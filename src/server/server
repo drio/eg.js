@@ -29,6 +29,7 @@ function screen_reads(reads_file, probes) {
   lr.eachLine(reads_file, function(line, last) {
     if (line[0] !== '>') {
       if (++i % 100000 === 0)
+        console.log(">> # of reads processed: " + i + " h: " + n_hits);
         eg_screening.process_read(line, probes, p_length, middle,
                                   function(probe_id, ref_or_var) {
           eg_hits.add(probe_id, ref_or_var);
