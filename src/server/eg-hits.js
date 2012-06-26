@@ -29,15 +29,23 @@ function create_square_matrix(size) {
 }
 
 function add(id, ref_or_var) {
-  if (counts.hasOwnProperty(id))
-    matrix[counts[id].r][counts[id].v]--;
+  var cells = [], // cells that have changed
+      cell_value;
+
+  if (counts.hasOwnProperty(id)) {
+    cell_value = --matrix[counts[id].r][counts[id].v];
+    cells.push({r:counts[id].r, v:counts[id].v, c:cell_value});
+  }
   else
     counts[id] = {r:0, v:0};
 
   if      (ref_or_var === 'R') counts[id].r++;
   else if (ref_or_var === 'V') counts[id].v++;
 
-  matrix[counts[id].r][counts[id].v]++;
+  cell_value = ++matrix[counts[id].r][counts[id].v];
+  cells.push({r:counts[id].r, v:counts[id].v, c:cell_value});
+
+  return cells;
 }
 
 exports.create_square_matrix = create_square_matrix;

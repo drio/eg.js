@@ -47,10 +47,6 @@ heatmap.scale = d3.scale.quantile()
   .domain([0, heatmap.domain_max])
   .range(heatmap.gen_range());
 
-// Build a string to id a particular cell in the heatmap
-heatmap.s_cell = function(cell) {
-  return "r" + cell.r + "v" + cell.v;
-};
 
 heatmap.empty = function (data, extras, sel) {
   var width   = typeof extras.width   === 'undefined' ? 600 : extras.width,
@@ -78,8 +74,13 @@ heatmap.empty = function (data, extras, sel) {
       .attr("id", function(d,i) { return heatmap.s_cell(d); });
 };
 
+// Build a string to id a particular cell in the heatmap
+heatmap.s_cell = function(cell) {
+  return "r" + cell.r + "v" + cell.v;
+};
+
 heatmap.update = function(c) {
-  console.log(">> Update: " + c.c + "|"+ heatmap.scale(c.c));
+  //console.log(">> Update: " + c.c + "|"+ heatmap.scale(c.c));
   heatmap.chart
     .select("#" + heatmap.s_cell(c))
     .style("fill", heatmap.scale(c.c));

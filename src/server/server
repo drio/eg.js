@@ -45,7 +45,9 @@ function screen_reads(reads_file, probes) {
       }
       eg_screening.process_read(line, probes, p_length, middle,
                                 function(probe_id, ref_or_var) {
-        eg_hits.add(probe_id, ref_or_var);
+        _.each(eg_hits.add(probe_id, ref_or_var), function(c) { // Iterate over the matrix changes and send them
+          send_data('heatmap', [["r", c.r] , ["v", c.v], ["c", c.c ]]);
+        });
         n_hits++;
       });
     }

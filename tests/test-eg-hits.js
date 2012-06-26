@@ -48,14 +48,30 @@ suite.addBatch({
 
     'and if now I get a new ref hit to that probe ' : {
       topic: function() {
-        eg_hits.add("id1", "R");
-        return eg_hits.matrix;
+        var a = eg_hits.add("id1", "R");
+        return {
+          m: eg_hits.matrix,
+          actions: a
+        };
       },
-      'The previous cell is zero': function(m) {
-        assert.equal(m[1][1], 0);
+      'The previous cell is zero': function(o) {
+        assert.equal(o.m[1][1], 0);
       },
-      'and the new one (# of probes 2 ref 1 var) is 1': function(m) {
-        assert.equal(m[2][1], 1);
+      'and the new one (# of probes 2 ref 1 var) is 1': function(o) {
+        assert.equal(o.m[2][1], 1);
+      },
+      'and the array returns two matrix cells': function(o) {
+        assert.equal(o.actions.length, 2);
+      },
+      'the first cell is 1,1 and should be count 0': function(o) {
+        assert.equal(o.actions[0].r, 1);
+        assert.equal(o.actions[0].v, 1);
+        assert.equal(o.actions[0].c, 0);
+      },
+      'the other cell is 2,1 and should be count 1': function(o) {
+        assert.equal(o.actions[1].r, 2);
+        assert.equal(o.actions[1].v, 1);
+        assert.equal(o.actions[1].c, 1);
       }
     }
   }
