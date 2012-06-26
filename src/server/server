@@ -11,7 +11,7 @@ var eg_probes    = require('./eg-probes'),
     fs   = require('fs'),
     path = require('path');
 
-var log = {
+var pipe = {
   clients: [],
   dump: function(msg) {
     _.each(this.clients, function(c) {
@@ -28,12 +28,14 @@ function screen_reads(reads_file, probes) {
 
   lr.eachLine(reads_file, function(line, last) {
     if (line[0] !== '>') {
-      if (++i % 100000 === 0)
+      if (++i % 100000 === 0) {
         console.log(">> # of reads processed: " + i + " h: " + n_hits);
-        eg_screening.process_read(line, probes, p_length, middle,
-                                  function(probe_id, ref_or_var) {
-          eg_hits.add(probe_id, ref_or_var);
-          n_hits++;
+        pipe.dump(">> #r: " + i + " #h: " + n_hits);
+      }
+      eg_screening.process_read(line, probes, p_length, middle,
+                                function(probe_id, ref_or_var) {
+        eg_hits.add(probe_id, ref_or_var);
+        n_hits++;
       });
     }
   }).then(function() {
@@ -111,8 +113,8 @@ var socket = io.listen(server);
 // Wait for at least one client to connect to the socket
 // When so, start e-genotype
 socket.on('connection', function(client){
-  log.clients.push(client);
-  if (log.clients.length === 1)
+  pipe.clients.push(client);
+  if (pipe.clients.length === 1)
     hash_probes("./data/affy_human.txt", "./data/illumina.fasta");
 });
 
