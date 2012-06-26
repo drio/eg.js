@@ -37,13 +37,13 @@ heatmap.gen_range = function() {
   range.push(white.toString());
   new_color = white;
   for(i=0; i<n_colors-1; i++) {
-    new_color = new_color.darker(0.05);
+    new_color = new_color.darker(0.2);
     range.push(new_color.toString());
   }
   return range;
 };
 
-heatmap.scale = d3.scale.linear()
+heatmap.scale = d3.scale.quantile()
   .domain([0, heatmap.domain_max])
   .range(heatmap.gen_range());
 
@@ -79,13 +79,14 @@ heatmap.empty = function (data, extras, sel) {
 };
 
 heatmap.update = function(c) {
+  console.log(">> Update: " + c.c + "|"+ heatmap.scale(c.c));
   heatmap.chart
     .select("#" + heatmap.s_cell(c))
     .style("fill", heatmap.scale(c.c));
 };
 
 heatmap.random_data = function() {
-  var d      = [], i, j;
+  var d = [], i, j;
 
   for(i=0; i<heatmap.size; i++)
     for(j=0; j<heatmap.size; j++)
