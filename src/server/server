@@ -8,7 +8,8 @@ var eg_probes    = require('./eg-probes'),
     probes,
     http = require('http'),
     io   = require('socket.io'),
-    fs   = require('fs');
+    fs   = require('fs'),
+    path = require('path');
 
 var log = {
   clients: [],
@@ -55,17 +56,61 @@ function hash_probes(probe_file, reads_file) {
   });
 }
 
+/* Server HTTP requests */
+function serve_this(req, res) {
+  var public_html="./src/client",
+      fpath = "";
+
+  if (req.url === '/')
+    fpath = public_html + '/index.html';
+  else
+    fpath = public_html + req.url;
+
+  console.log('>> Requesting: ' + fpath);
+
+  var ext_name     = path.extname(fpath);
+  var content_type = 'text/html';
+  switch (ext_name) {
+    case '.js':
+      content_type = 'text/javascript';
+      break;
+    case '.css':
+      content_type = 'text/css';
+      break;
+  }
+
+  path.exists(fpath, function(exists) {
+    if (exists) {
+      fs.readFile(fpath, function(error, content) {
+        if (error) {
+          res.writeHead(500);
+          res.end();
+        }
+        else {
+          res.writeHead(200, { 'Content-Type': content_type });
+          res.end(content, 'utf-8');
+        }
+      });
+    }
+    else {
+      res.writeHead(404);
+      res.end();
+    }
+  });
+}
+
 /*******************
  * Main
  ******************/
 //hash_probes("./tests/seq_space_probes.txt", "./tests/small_reads.fasta");
-var sockFile = fs.readFileSync('src/client/index.html');
+//var sockFile = fs.readFileSync('src/client/index.html');
 
 // Create HTTP server
 server = http.createServer();
 server.on('request', function(req, res){
-  res.writeHead(200, {'content-type': 'text/html'});
-  res.end(sockFile);
+  serve_this(req,res);
+  //res.writeHead(200, {'content-type': 'text/html'});
+  //res.end(sockFile);
 });
 server.listen(8080);
 
