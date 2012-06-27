@@ -128,8 +128,10 @@ var socket = io.listen(server);
 // When so, start e-genotype
 socket.on('connection', function(client){
   pipe.clients.push(client);
-  if (pipe.clients.length === 1)
-    hash_probes("./data/affy_human.txt", "./data/illumina.fasta");
+  if (pipe.clients.length === 1) {
+    hash_probes("./data/affy_human.txt", "/Users/drio/sshfs/ardmore_drio/playground/eg.js.sample/split.01");
+    //hash_probes("./data/affy_human.txt", "./data/illumina.fasta");
+  }
 });
 
 console.log(">> Waiting for client ...");

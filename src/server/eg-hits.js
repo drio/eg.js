@@ -14,7 +14,7 @@
  */
 var _           = require('underscore'),
     counts      = {},
-    matrix      = create_square_matrix(30);
+    matrix      = create_square_matrix(100);
 
 function create_square_matrix(size) {
   var m = [],i,j;

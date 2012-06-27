@@ -3,12 +3,13 @@ var heatmap = {};
 heatmap.cc_sel     = "#color-chart"; // color-chart section id
 heatmap.sel        = "#heatmap";
 heatmap.chart      = null;
-heatmap.size       = 20;
+heatmap.size       = 40;
 heatmap.domain_max = 100;
 heatmap.range_max  = 100;
 heatmap.random     = function(m) { return Math.floor((Math.random()*m)+1); };
 heatmap.trans_x    = 25,
 heatmap.trans_y    = 25;
+heatmap.cell_size  = 10;
 
 // Display the palette
 heatmap.display_palette = function() {
@@ -50,9 +51,7 @@ heatmap.scale = d3.scale.quantile()
 
 heatmap.empty = function (data, extras, sel) {
   var width   = typeof extras.width   === 'undefined' ? 600 : extras.width,
-      height  = typeof extras.height  === 'undefined' ? 400 : extras.height;
-
-  var cell_size = 15;
+      height  = typeof extras.height  === 'undefined' ? 500 : extras.height;
 
   heatmap.chart = d3.select(heatmap.sel)
         .append("svg")
@@ -67,10 +66,10 @@ heatmap.empty = function (data, extras, sel) {
     .data(data)
     .enter().append("rect")
       .attr("class", "day")
-      .attr("width", cell_size)
-      .attr("height", cell_size)
-      .attr("x", function(d,i)  { return d.r * cell_size; })
-      .attr("y", function(d,i)  { return d.v * cell_size; })
+      .attr("width",  heatmap.cell_size)
+      .attr("height", heatmap.cell_size)
+      .attr("x", function(d,i)  { return d.r * heatmap.cell_size; })
+      .attr("y", function(d,i)  { return d.v * heatmap.cell_size; })
       .attr("id", function(d,i) { return heatmap.s_cell(d); });
 };
 
