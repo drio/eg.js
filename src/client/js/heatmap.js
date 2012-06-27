@@ -8,8 +8,10 @@ heatmap.domain_max = 100;
 heatmap.range_max  = 100;
 heatmap.random     = function(m) { return Math.floor((Math.random()*m)+1); };
 heatmap.trans_x    = 25,
-heatmap.trans_y    = 25;
+heatmap.trans_y    = 35;
 heatmap.cell_size  = 10;
+heatmap.x_text     = "REFERENCE allele coverage";
+heatmap.y_text     = "VARIANT allele coverage";
 
 // Display the palette
 heatmap.display_palette = function() {
@@ -71,6 +73,23 @@ heatmap.empty = function (data, extras, sel) {
       .attr("x", function(d,i)  { return d.r * heatmap.cell_size; })
       .attr("y", function(d,i)  { return d.v * heatmap.cell_size; })
       .attr("id", function(d,i) { return heatmap.s_cell(d); });
+
+  // Text in the x-axis top
+  heatmap.chart
+    .append("g")
+    .attr("transform", "translate("+ heatmap.cell_size * (heatmap.size/4) + "," + -8 + ")")
+    .append("text")
+      .text(heatmap.x_text)
+      .attr("class", "axis-text");
+
+  // Text in the y-axis left
+  heatmap.chart
+    .append("g")
+    .attr("transform", "translate("+ -10 + "," + heatmap.size*7 + ") rotate(-90)")
+    .append("text")
+      .text(heatmap.y_text)
+      .attr("class", "axis-text");
+
 };
 
 // Build a string to id a particular cell in the heatmap
@@ -90,7 +109,7 @@ heatmap.random_data = function() {
 
   for(i=0; i<heatmap.size; i++)
     for(j=0; j<heatmap.size; j++)
-      d.push({r:i, v:j, c:heatmap.random(heatmap.domain_max)});
+      d.push({r:i, v:j, c:0});
   return d;
 };
 

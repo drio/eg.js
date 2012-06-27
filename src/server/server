@@ -129,7 +129,7 @@ var socket = io.listen(server);
 socket.on('connection', function(client){
   pipe.clients.push(client);
   if (pipe.clients.length === 1) {
-    hash_probes("./data/affy_human.txt", "./data/split.01");
+    //hash_probes("./data/affy_human.txt", "./data/split.01");
     //hash_probes("./data/affy_human.txt", "./data/illumina.fasta");
   }
 });

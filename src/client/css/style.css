@@ -1,27 +1,42 @@
 body {
-  font: 14px Helvetica Neue;
+  font: 24px "Yanone Kaffeesatz","Helvetica Neue", Helvetica, sans-serif;
   text-rendering: optimizeLegibility;
-  padding: 10px;
+  //padding: 10px;
   /*
   margin-top: 100px;
   margin-left: 50px;
   */
   overflow-y: scroll;
-  width: 900px;
+  width: 500px;
   margin: auto;
 }
 
-#min-max-color {
-  float: left;
+h1,h2,h3 {
+  display: block;
+  padding-left: 10px;
 }
 
-#heatmap {
-  padding-top: 20px;
+h3 {
+  font-size: 20px;
+}
+
+#min-max-color {
+  font: 16px "Helvetica Neue", Helvetica, sans-serif;
+  float: left;
+  padding-top: 10px;
+  padding-left: 10px;
 }
 
 #info {
-  padding-bottom: 10px;
+  font: 16px "Helvetica Neue", Helvetica, sans-serif;
+  padding-bottom: 20px;
+  padding-left: 10px;
 }
+
+#heatmap {
+  padding-top: 40px;
+}
+
 
 #pmin {
   border: 0px solid;
@@ -63,8 +78,8 @@ body {
 
 .color.palette .swatch {
   display: inline-block;
-  width: 14px;
-  height: 14px;
+  width: 20px;
+  height: 20px;
 }
 
 .circle {
