@@ -11,6 +11,14 @@ body {
   margin: auto;
 }
 
+#min-max-color {
+  float: left;
+}
+
+#heatmap {
+  padding-top: 20px;
+}
+
 #info {
   padding-bottom: 10px;
 }
@@ -37,6 +45,9 @@ body {
   float: left;
   border: 0px solid;
   border-color:black;
+}
+
+#heatmap {
 }
 
 .color.palette {

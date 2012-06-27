@@ -27,7 +27,7 @@ heatmap.display_palette = function() {
 
   // Add text for the start/end of the pallete values
   d3.select("#pmin").text(0);
-  d3.select("#pmax").text(heatmap.domain_max);
+  d3.select("#pmax").text(heatmap.domain_max + "+");
 };
 
 // Generate a range of colors for the scale
@@ -46,8 +46,8 @@ heatmap.gen_range = function() {
 
 heatmap.scale = d3.scale.quantile()
   .domain([0, heatmap.domain_max])
-  .range(heatmap.gen_range());
-
+  .range(d3.scale.category20().range());
+  //.range(heatmap.gen_range());
 
 heatmap.empty = function (data, extras, sel) {
   var width   = typeof extras.width   === 'undefined' ? 600 : extras.width,
