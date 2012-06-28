@@ -1,6 +1,6 @@
 ![eg.js.screenshot](http://f.cl.ly/items/2K3e0o0M1B3s0n3b1d3b/eg_js.screenshot.png)
 
-Checkout [this video](http://google.com) to see this tool in action.
+Checkout [this video](https://vimeo.com/44880073) to see this tool in action.
 
 ## What's this?
 
@@ -28,6 +28,6 @@ The visualization consists on a [heatmap](http://en.wikipedia.org/wiki/Heat_map)
 where each cell shows the amount of probes that have a particular
 reference/variant allele ratio.
 
-Checkout [this video](http://google.com) to see this tool in action.
+Once again, checkout [this video](https://vimeo.com/44880073) to see this tool in action.
 
 As usual comments, ideas, complains or pull requests are welcome!
