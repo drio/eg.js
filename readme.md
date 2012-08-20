@@ -28,6 +28,6 @@ The visualization consists on a [heatmap](http://en.wikipedia.org/wiki/Heat_map)
 where each cell shows the amount of probes that have a particular
 reference/variant allele ratio.
 
-Once again, checkout [this video](https://vimeo.com/44880073) to see this tool in action.
+Once again, checkout [this video](https://vimeo.com/44891332) to see this tool in action.
 
 As usual comments, ideas, complains or pull requests are welcome!
