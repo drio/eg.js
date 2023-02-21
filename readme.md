@@ -1,5 +1,3 @@
-![eg.js.screenshot](http://f.cl.ly/items/2K3e0o0M1B3s0n3b1d3b/eg_js.screenshot.png)
-
 Checkout [this video](https://vimeo.com/44891332) to see this tool in action.
 
 ## What's this?
